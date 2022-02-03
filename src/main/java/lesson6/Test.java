@@ -1,38 +1,48 @@
 package lesson6;
 
+import java.util.Random;
+
 public class Test {
+
+    private static final int LENGTH = 20;
+
+
     public static void main(String[] args) {
 
-        Tree<Integer> tree = new TreeImpl<>();
+        final Random random = new Random();
 
-        tree.add(60);
-        tree.add(50);
-        tree.add(66);
-        tree.add(40);
-        tree.add(55);
-        tree.add(70);
-        tree.add(31);
-        tree.add(45);
-        tree.add(42);
-        tree.add(43);
-        tree.add(69);
-        tree.add(67);
-        tree.add(68);
-        tree.add(81);
+        int balancedCount=0, unBalancedCount=0;
 
-        tree.display();
 
-//        tree.remove(68);
-//        tree.remove(69);
-//        tree.remove(42);
-        tree.remove(70);
-        tree.remove(40);
+        Tree<Integer>[] trees = new Tree[LENGTH];
 
-        tree.display();
+        for (int i = 0; i < trees.length; i++) {
 
-        tree.traverse(Tree.TraversMode.IN_ORDER);
-        tree.traverse(Tree.TraversMode.PRE_ORDER);
-        tree.traverse(Tree.TraversMode.POST_ORDER);
+            TreeImpl<Integer> tree = new TreeImpl<Integer>();
+
+            for (int j = 0; j < 12; j++) {
+                tree.add(random.nextInt(25 + 25) -25);
+            }
+
+            trees[i] = tree;
+
+            final Node<Integer> root = tree.getRoot();
+
+            final boolean isBalanced = tree.isBalanced(root);
+
+            if (isBalanced) {
+                balancedCount++;
+            } else {
+                unBalancedCount++;
+            }
+
+            tree.display();
+
+            System.out.println("' ".repeat(20)+"Глубина: "+tree.height(root)+", Сбалансированность: "+isBalanced+" '".repeat(20) );
+        }
+
+        System.out.println("Процент несбалансированных: " + 1.0 * unBalancedCount / LENGTH);
+
 
     }
 }

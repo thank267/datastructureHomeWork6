@@ -162,9 +162,18 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
     @Override
     public void traverse(TraversMode mode) {
         switch (mode) {
-            case PRE_ORDER -> preOrder(root); //прямой
-            case IN_ORDER -> inOrder(root); //центированный
-            case POST_ORDER -> postOrder(root); //обратный
+            case PRE_ORDER: {
+                preOrder(root); //прямой
+                break;
+            }
+            case IN_ORDER : {
+                inOrder(root); //центированный
+                break;
+            }
+            case POST_ORDER : {
+                postOrder(root); //обратный
+                break;
+            }
         }
         System.out.println();
     }
@@ -197,6 +206,21 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
         postOrder(current.getLeftChild());
         postOrder(current.getRightChild());
         System.out.print(current.getValue() + " ");
+    }
+
+    public boolean isBalanced(Node node) {
+        return (node == null) ||
+                isBalanced(node.getLeftChild()) &&
+                        isBalanced(node.getRightChild()) &&
+                        Math.abs(height(node.getLeftChild()) - height(node.getRightChild())) <= 1;
+    }
+
+    public int height(Node node) {
+        return node == null ? 0 : 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+    }
+
+    public Node<E> getRoot() {
+        return root;
     }
 
     public void display() {
